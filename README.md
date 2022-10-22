@@ -18,6 +18,7 @@ This project implemented a GPU-based path tracer using CUDA with several visual 
     * Shading kernel with BSDF evaluation for diffuse, specular-reflective and refractive surfaces.
     * Stochastic Sampled Antialiasing
     * Depth of Field
+    * Edge-voiding denoiser
     * Motion Blur
 * Mesh
     * Arbitrary mesh loading and rendering based on tinyOBJ with toggleable bounding volume intersection culling
@@ -53,6 +54,13 @@ This path tracer implements the depth of field using two parameters: `LENS_RADIU
 |Without Motion Blur| Motion Blur|
 |--|--|
 |<img width="400" alt="nmb" src="https://user-images.githubusercontent.com/33616958/194783108-f1cd9ee8-7c09-41c8-96a4-cde9d3e6f4bb.png"> | <img width="400" alt="mb" src="https://user-images.githubusercontent.com/33616958/194783228-8ac3b4d0-f4b0-476d-8f28-382e504bcb7c.png">  |
+
+### Edge-voiding Denoiser
+| 300 iterations |300 iterations + denoiser |
+|--|--|
+| <img width="400" alt="raw" src="https://user-images.githubusercontent.com/33616958/197310311-90423e9f-5a26-4884-bb23-013639b7eb4a.png"> | <img width="400" alt="denoised" src="https://user-images.githubusercontent.com/33616958/197308568-a95d1f1e-2961-47fa-8d47-9519e7b07cf0.png">  |
+
+This path tracer implements a denoiser that uses geometry buffers (G-buffers) to guide a smoothing filter. The impelmentation is based on the paper "Edge-Avoiding A-Trous Wavelet Transform for fast Global Illumination Filtering," by Dammertz, Sewtz, Hanika, and Lensch. The paper could be found here: https://jo.dreggn.org/home/2010_atrous.pdf
 
 ### Mesh Loading
 |Teapot| Cow|
