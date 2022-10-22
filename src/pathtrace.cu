@@ -15,9 +15,9 @@
 #include "interactions.h"
 
 #define ERRORCHECK 1
-#define SORT_BY_MATERIAL 0
+#define SORT_BY_MATERIAL 1
 #define CACHE_FIRST_BOUNCE 1
-#define ANTI_ALIASING 0
+#define ANTI_ALIASING 1
 
 #define DOF 0
 #define LENS_RADIUS 0.4
@@ -29,7 +29,7 @@
 
 #define EDGE_VOIDING 1
 
-#define GBUFFER_VIS_TYPE 2
+#define GBUFFER_VIS_TYPE 1
 
 enum VIS_TYPE
 {
@@ -99,7 +99,8 @@ __global__ void gbufferToPBO(uchar4* pbo, glm::ivec2 resolution, GBufferPixel* g
 
 		if (GBUFFER_VIS_TYPE == VIS_TYPE::POS) {
 			glm::vec3 pos = gBuffer[index].pos;
-			pos = glm::clamp(abs(pos * 20.f), 0.f, 255.f);
+			float posScaler = 0.1f;
+			pos = glm::clamp(abs(pos * 255.f * posScaler), 0.f, 255.f);
 			pbo[index].w = 0;
 			pbo[index].x = pos.x;
 			pbo[index].y = pos.y;
@@ -548,7 +549,7 @@ __global__ void kernDenoise(glm::ivec2 resolution, glm::vec3* denoise1, glm::vec
 					int curIdx = x0 + y0 * resolution.x;
 					glm::vec3 ctmp = denoise1[curIdx];
 
-#ifdef  EDGE_VOIDING
+#if EDGE_VOIDING
 					glm::vec3 t = cval - ctmp;
 					float dist2 = glm::dot(t, t);
 					float c_w = glm::min(glm::exp(-dist2 / cPhi), 1.f);

@@ -35,7 +35,7 @@ int ui_iterations = 0;
 int startupIterations = 0;
 int lastLoopIterations = 0;
 bool ui_showGbuffer = false;
-bool ui_denoise = true;
+bool ui_denoise = false;
 int ui_filterSize = 80;
 float ui_colorWeight = 0.45f;
 float ui_normalWeight = 0.35f;
@@ -118,7 +118,7 @@ void saveImage() {
         for (int y = 0; y < height; y++) {
             int index = x + (y * width);
             glm::vec3 pix = renderState->image[index];
-            if (ui_denoise) {
+            if (ui_denoise || ui_showGbuffer) {
                 img.setPixel(width - 1 - x, y, glm::vec3(pix));
             }
             else {
